@@ -1,0 +1,23 @@
+{
+    "name": "InstaMark",
+    "description": "Instant Bookmarks everywhere.",
+    "version": "0.0.0",
+    "permissions": [
+    ],
+    "background": {
+        "scripts": ["js/background.js"],
+        "persistent": true
+    },
+    "icons": {
+        "128": ""
+    },
+    "browser_action": {
+        "default_title": "InstaMark",
+        "default_icon": {
+            "128": ""
+        },
+        "default_popup": "views/popup.html"
+    },
+    "manifest_version": 2,
+    "author": "Andrii Romanchak"
+}
