@@ -1,23 +1,27 @@
 {
-    "name": "InstaMark",
+    "name": "Instamark",
     "description": "Instant Bookmarks everywhere.",
     "version": "0.0.0",
+    "manifest_version": 2,
+    "author": "Andrii Romanchak",
     "permissions": [
+        "bookmarks"
     ],
     "background": {
         "scripts": ["js/background.js"],
         "persistent": true
     },
-    "icons": {
-        "128": ""
-    },
     "browser_action": {
-        "default_title": "InstaMark",
-        "default_icon": {
-            "128": ""
-        },
+        "default_title": "Instamark",
         "default_popup": "views/popup.html"
     },
-    "manifest_version": 2,
-    "author": "Andrii Romanchak"
+    "commands": {
+        "_execute_browser_action": {
+            "description": "Create a bookmark",
+            "suggested_key": {
+                "default": "Ctrl+Shift+Z",
+                "mac": "MacCtrl+Shift+Z"
+            }
+        }
+    }
 }

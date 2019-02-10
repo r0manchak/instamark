@@ -1,2 +1,2 @@
-# instamark
+# Instamark
 Instant Bookmarks everywhere
