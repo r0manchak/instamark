@@ -5,13 +5,11 @@ chrome.bookmarks.onCreated.addListener((id, bookmark) => {
     if (bookmark.title === 'NEW') {
         return;
     }
+    newBookmarkId = id;
 
     console.log('bookmark added', id, bookmark);
     getNewFolder((newFolder => {
-        newBookmarkId = id;
-        chrome.bookmarks.move(id, {parentId: newFolder.id, index: 0}, tree => {
-            console.log('moved', tree);
-        })
+        chrome.bookmarks.move(id, {parentId: newFolder.id, index: 0});
     }));
 });
 
@@ -22,8 +20,7 @@ chrome.bookmarks.onMoved.addListener((id, moveInfo) => {
 
     if (moveInfo.parentId === '1') {
         console.log('moving back', id, moveInfo);
-        chrome.bookmarks.move(id, {parentId: moveInfo.oldParentId, index: 0}, tree => {
-            console.log('moved back', id, tree);
+        chrome.bookmarks.move(id, {parentId: moveInfo.oldParentId, index: 0}, () => {
             newBookmarkId = null;
         });
     }
@@ -51,12 +48,11 @@ function getNewFolder(callback) {
         }
 
         callback(newFolder);
-    })
+    });
 }
 
 function createNewFolder(callback) {
     chrome.bookmarks.create({parentId: '1', title: 'NEW'}, newFolder => {
         callback(newFolder);
     });
-
 }
