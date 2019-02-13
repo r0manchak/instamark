@@ -19,8 +19,8 @@
         "_execute_browser_action": {
             "description": "Create a bookmark",
             "suggested_key": {
-                "default": "Ctrl+Shift+Z",
-                "mac": "MacCtrl+Shift+Z"
+                "default": "Ctrl+D",
+                "mac": "MacCtrl+D"
             }
         }
     }
