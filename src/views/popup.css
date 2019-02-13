@@ -1,3 +1,20 @@
+body {
+    width: 320px;
+    margin: 0;
+}
+
+.search {
+    width: 100%;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    outline: none;
+    font-size: 16px;
+}
+
 #suggestions {
     list-style: none;
     padding: 0;
@@ -7,9 +24,12 @@
 #suggestions li {
     display: block;
     width: 100%;
+    padding: 5px 10px;
+    font-size: 16px;
 }
 
-#suggestions li:hover {
+#suggestions li:hover,
+#suggestions li.selected {
     background: #eee;
     cursor: default;
 }
