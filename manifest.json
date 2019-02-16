@@ -14,7 +14,7 @@
     },
     "browser_action": {
         "default_title": "Instamark",
-        "default_popup": "views/popup.html"
+        "default_popup": "popup.html"
     },
     "commands": {
         "_execute_browser_action": {
