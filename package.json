@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/chrome": "0.0.80",
     "clean-webpack-plugin": "^1.0.1",
+    "codelyzer": "^4.5.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.1.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -36,6 +37,9 @@
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
+    "tslint-consistent-codestyle": "^1.15.0",
+    "tslint-defocus": "^2.0.6",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.3.3",
     "webpack": "^4.29.4",
     "webpack-chrome-extension-reloader": "^1.2.0",
