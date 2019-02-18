@@ -1,15 +1,17 @@
-import { BookmarkFolderSuggestion } from './models/bookmarkFolderSuggestion';
+import { BookmarkNodeSuggestion } from '../models/bookmark-node-suggestion';
+import { TreeNode } from '../types';
 
 export class SuggestionService {
 
-  public suggestions: BookmarkFolderSuggestion[] = [];
+  public suggestions: BookmarkNodeSuggestion[] = [];
   private selectedSuggestion = -1;
 
   constructor(
-    private container: HTMLElement
+    private container: HTMLElement,
+    public onNodeSelect: (treeNode: TreeNode) => void
   ) {}
 
-  public load(treeNodes: chrome.bookmarks.BookmarkTreeNode[]) {
+  public load(treeNodes: TreeNode[]) {
     this.clear();
 
     // this.domElements.suggestionContainer.innerHTML = '';
@@ -39,7 +41,7 @@ export class SuggestionService {
     suggestionElements[index].classList.remove('selected');
   }
 
-  public selectNextSuggestion(direction = 1) {
+  public selectNextSuggestion(direction: -1|0|1 = 1) {
     if (direction === 0 || !suggestionElements.length) {
       return;
     }
@@ -72,4 +74,32 @@ export class SuggestionService {
     this.suggestions.length = 0;
     this.container.innerHTML = '';
   }
+
+  private initKeyboardEventHandlers() {
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault();
+          this.selectNextSuggestion(1);
+          this.selectSuggestion();
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          this.selectNextSuggestion(-1);
+          this.selectSuggestion();
+          break;
+        }
+        case 'Enter': {
+          this.onNodeSelect(null);
+          break;
+        }
+        default: {
+          console.log('onkeydown', e.key, e);
+          break;
+        }
+      }
+    });
+  }
+
 }

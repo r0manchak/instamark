@@ -1,4 +1,4 @@
-export type TreeNode = chrome.bookmarks.BookmarkTreeNode;
+import { TreeNode } from '../types';
 
 export class ChromeBookmarkService {
   private source = chrome.bookmarks;
