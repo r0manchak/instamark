@@ -1,5 +1,5 @@
-import { ChromeBookmarkService } from './services/chrome-bookmark.service';
-import { SuggestionService } from './services/suggestion.service';
+import { ChromeBookmarkService } from '../services/chrome-bookmark.service';
+import { SuggestionContainer } from './suggestion-container';
 
 export class Popup {
 
@@ -9,7 +9,8 @@ export class Popup {
   };
 
   private bookmarkService: ChromeBookmarkService = new ChromeBookmarkService();
-  private suggestionService: SuggestionService = new SuggestionService(
+
+  private suggestionService: SuggestionContainer = new SuggestionContainer(
     this.domElements.suggestionContainer, treeNode => {
       this.bookmarkService.saveCurrentTabAsBookmark(treeNode.id, Popup.close);
     });
@@ -21,7 +22,7 @@ export class Popup {
       const query = (<HTMLInputElement>event.target).value;
 
       this.bookmarkService.searchFolders(query, treeNodes => {
-        this.suggestionService.load(treeNodes);
+        this.suggestionService.setBookmarksTree(treeNodes);
       });
     });
 

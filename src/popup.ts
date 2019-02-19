@@ -1,5 +1,5 @@
 import './styles/popup.scss';
-import { Popup } from './app/popup';
+import { Popup } from './app/components/popup';
 
 new Popup().init();
 

@@ -8,8 +8,18 @@
   <div class="search">
     <input type="search" id="search-input">
   </div>
-  <ul id="suggestions"></ul>
+  <ul id="suggestions" class="suggestion-list"></ul>
   + (add folder)
 </div>
 </body>
 </html>
+
+<template id="suggestion-item-tpl">
+  <li class="suggestion-item">
+    <div class="suggestion-content">
+      <span class="suggestion-title"></span>
+      <button class="suggestion-add">+</button>
+    </div>
+    <ul class="suggestion-list"></ul>
+  </li>
+</template>
