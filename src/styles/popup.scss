@@ -26,6 +26,10 @@ body {
         padding: 5px 10px;
         font-size: 16px;
 
+        .suggestion-add {
+            display: none;
+        }
+
         .suggestion-content:hover,
         &.active > .suggestion-content {
             background: #eee;
