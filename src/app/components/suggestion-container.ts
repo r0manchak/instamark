@@ -4,7 +4,14 @@ import { TreeNode } from '../types';
 export class SuggestionContainer {
 
   public suggestions: BookmarkNodeSuggestion[] = [];
-  private selectedSuggestion = -1;
+  // todo: update other methods to use this object
+  private selectedSuggestion: {
+    parent: TreeNode,
+    index: number
+  } = {
+    parent: null,
+    index: -1
+  };
 
   constructor(
     private container: HTMLElement,
@@ -17,7 +24,6 @@ export class SuggestionContainer {
     treeNodes.forEach((node) => {
       const instance = new BookmarkNodeSuggestion(node, null, this.container, this.onNodeSelect);
       this.suggestions.push(instance);
-      // this.container.appendChild(instance.domElements.currentItem);
     });
 
     this.initKeyboardEventHandlers();
@@ -63,17 +69,23 @@ export class SuggestionContainer {
         case 'ArrowDown': {
           e.preventDefault();
           this.selectNextSuggestion(1);
-          this.suggestions[this.selectedSuggestion].select();
+          // this.suggestions[this.selectedSuggestion].select();
           break;
         }
         case 'ArrowUp': {
           e.preventDefault();
           this.selectNextSuggestion(-1);
-          this.suggestions[this.selectedSuggestion].select();
+          // this.suggestions[this.selectedSuggestion].select();
+          break;
+        }
+        case 'ArrowLeft':
+        case 'ArrowRight': {
+          e.preventDefault();
+          // todo: navigate btw parent - children
           break;
         }
         case 'Enter': {
-          this.onNodeSelect(this.suggestions[this.selectedSuggestion].bookmarkNode);
+          // this.onNodeSelect(this.suggestions[this.selectedSuggestion].bookmarkNode);
           break;
         }
         default: {
