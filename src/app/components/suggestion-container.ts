@@ -4,14 +4,17 @@ import { TreeNode } from '../types';
 export class SuggestionContainer {
 
   public suggestions: BookmarkNodeSuggestion[] = [];
-  // todo: update other methods to use this object
-  private selectedSuggestion: {
-    parent: TreeNode,
-    index: number
-  } = {
-    parent: null,
-    index: -1
-  };
+  public selectedSuggestion: BookmarkNodeSuggestion;
+
+  // private selectedSuggestion: {
+  //   parent: BookmarkNodeSuggestion,
+  //   index: number
+  // } = {
+  //   parent: null,
+  //   index: -1
+  // };
+
+  private suggestionIterator;
 
   constructor(
     private container: HTMLElement,
@@ -27,6 +30,7 @@ export class SuggestionContainer {
     });
 
     this.initKeyboardEventHandlers();
+    this.initSuggestionIterator();
   }
 
   public selectNextSuggestion(direction: -1|0|1 = 1) {
@@ -34,33 +38,77 @@ export class SuggestionContainer {
       return;
     }
 
-    if (this.selectedSuggestion < 0) {
-      this.selectedSuggestion = 0;
-      return;
+    if (this.selectedSuggestion) {
+      this.selectedSuggestion.deselect();
     }
 
-    this.suggestions[this.selectedSuggestion].deselect();
-
-    if (direction > 0) {
-      if (this.selectedSuggestion >= this.suggestions.length - 1) {
-        this.selectedSuggestion = 0;
-        return;
-      }
-      this.selectedSuggestion += 1;
-      return;
+    let current = this.suggestionIterator.next();
+    if (current.done) {
+      this.initSuggestionIterator();
+      current = this.suggestionIterator.next();
     }
+    this.selectedSuggestion = (<BookmarkNodeSuggestion>current.value);
+    this.selectedSuggestion.select();
 
-    if (this.selectedSuggestion <= 0) {
-      this.selectedSuggestion = this.suggestions.length - 1;
-      return;
-    }
-
-    this.selectedSuggestion -= 1;
+    // const selectedSuggestion = this.getSelectedSuggestion();
+    //
+    // if (!selectedSuggestion) {
+    //   this.selectSuggestion();
+    //   return;
+    // }
+    //
+    // selectedSuggestion.deselect();
+    //
+    // if (direction > 0) {
+    //   if (this.selectedSuggestion.index >= this.selectedSuggestion.parent.children.length - 1) {
+    //     select next parent
+        //
+        // this.selectedSuggestion = 0;
+        // return;
+      // }
+      // this.selectedSuggestion += 1;
+      // return;
+    // }
+    //
+    // if (this.selectedSuggestion <= 0) {
+    //   this.selectedSuggestion = this.suggestions.length - 1;
+    //   return;
+    // }
+    //
+    // this.selectedSuggestion -= 1;
   }
+
+  // public selectSuggestion(parent: BookmarkNodeSuggestion = this.suggestions[0], index: number = -1) {
+  //   this.selectedSuggestion.parent = parent;
+  //   this.selectedSuggestion.index = index;
+  // }
+  //
+  // public getSelectedSuggestion(): BookmarkNodeSuggestion {
+  //   if (!this.selectedSuggestion.parent) {
+  //     return null;
+  //   }
+  //
+  //   if (this.selectedSuggestion.index === -1) {
+  //     return this.selectedSuggestion.parent;
+  //   }
+  //
+  //   return this.selectedSuggestion.parent[this.selectedSuggestion.index];
+  // }
 
   public clear() {
     this.suggestions.length = 0;
     this.container.innerHTML = '';
+  }
+
+  private initSuggestionIterator() {
+    this.suggestionIterator = this.iterateSuggestions(this.suggestions[0]);
+  }
+
+  private *iterateSuggestions (current: BookmarkNodeSuggestion) {
+    yield current;
+    for (const child of current.children) {
+      yield *this.iterateSuggestions(child);
+    }
   }
 
   private initKeyboardEventHandlers() {
@@ -85,7 +133,7 @@ export class SuggestionContainer {
           break;
         }
         case 'Enter': {
-          // this.onNodeSelect(this.suggestions[this.selectedSuggestion].bookmarkNode);
+          this.onNodeSelect(this.selectedSuggestion.bookmarkNode);
           break;
         }
         default: {
