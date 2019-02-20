@@ -19,7 +19,9 @@ export class SuggestionContainer {
   constructor(
     private container: HTMLElement,
     private onNodeSelect: (treeNode: TreeNode) => void
-  ) {}
+  ) {
+    this.initKeyboardEventHandlers();
+  }
 
   public setBookmarksTree(treeNodes: TreeNode[]) {
     this.clear();
@@ -29,7 +31,6 @@ export class SuggestionContainer {
       this.suggestions.push(instance);
     });
 
-    this.initKeyboardEventHandlers();
     this.initSuggestionIterator();
   }
 
