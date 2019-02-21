@@ -6,14 +6,6 @@ export class SuggestionContainer {
   public suggestions: BookmarkNodeSuggestion[] = [];
   public selectedSuggestion: BookmarkNodeSuggestion;
 
-  // private selectedSuggestion: {
-  //   parent: BookmarkNodeSuggestion,
-  //   index: number
-  // } = {
-  //   parent: null,
-  //   index: -1
-  // };
-
   private suggestionIterator;
 
   constructor(
@@ -118,13 +110,11 @@ export class SuggestionContainer {
         case 'ArrowDown': {
           e.preventDefault();
           this.selectNextSuggestion(1);
-          // this.suggestions[this.selectedSuggestion].select();
           break;
         }
         case 'ArrowUp': {
           e.preventDefault();
           this.selectNextSuggestion(-1);
-          // this.suggestions[this.selectedSuggestion].select();
           break;
         }
         case 'ArrowLeft':
