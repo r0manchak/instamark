@@ -29,6 +29,7 @@ export class BookmarkNodeSuggestion {
 
   public select() {
     this.domElements.currentItem.classList.add('active');
+    this.domElements.content.scrollIntoView(false);
   }
 
   public deselect() {
@@ -56,6 +57,9 @@ export class BookmarkNodeSuggestion {
     this.domElements.button = currentItem.getElementsByClassName('suggestion-add')[0];
     this.domElements.subContainer = currentItem.getElementsByClassName('suggestion-list')[0];
 
+    if (this.bookmarkNode.children && this.bookmarkNode.children.length) {
+      this.domElements.currentItem.classList.add('has-children');
+    }
     this.domElements.title.innerHTML = this.bookmarkNode.title;
 
     this.domElements.button.addEventListener('click', e => {

@@ -1,1 +1,3 @@
-export type TreeNode = chrome.bookmarks.BookmarkTreeNode;
+export interface TreeNode extends chrome.bookmarks.BookmarkTreeNode {
+  hidden?: boolean;
+}

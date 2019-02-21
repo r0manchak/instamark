@@ -8,11 +8,12 @@ export class ChromeBookmarkService {
 
   public searchFolders(query: string, callback: (treeNodes: TreeNode[]) => void) {
     this.source.getTree(tree => {
-      callback(this.filterChildren(tree, query.toLocaleLowerCase())
+      // callback(tree);
+      callback(this.filterChildren(tree, query.toLocaleLowerCase())[0].children
         // extract [0] element
-        .map(a => {
-          return (a && a.children && a.children[0]) ? a.children[0] : a;
-        })
+        // .map(a => {
+        //   return (a && a.children && a.children[0]) ? a.children[0] : a;
+        // })
       );
     });
   }
@@ -34,30 +35,35 @@ export class ChromeBookmarkService {
    * @param nodes
    * @param query
    */
-  private filterChildren(nodes: TreeNode[], query: string): TreeNode[] {
+  private filterChildren(nodes: TreeNode[], query: string) {
     if (!nodes) {
       return [];
     }
 
-    return nodes.filter(n => {
+    nodes.forEach(n => {
       if (n.title.toLocaleLowerCase().includes(query)) {
         n.children = this.filterChildren(n.children, query);
 
         // hide sibling matches if query.length < 3
-        return !(n.url && query.length < 3);
+        n.hidden = (n.url && query.length < 3);
+        return;
       }
 
       if (n.children) {
         const filtered = this.filterChildren(n.children, query);
 
         // show only folders
-        n.children = filtered.filter(n2 => !n2.url);
+        n.children = this.filterChildren(n.children, query);
+        // n.children = filtered.filter(n2 => !n2.url);
 
         // if query.length < 3 hide sibling matches
-        return query.length < 3 ? n.children.length : filtered.length;
+        n.hidden = !(query.length < 3 ? n.children.length : filtered.length);
+        return;
       }
 
-      return false;
+      n.hidden = true;
     });
+
+    return nodes;
   }
 }
