@@ -40,30 +40,32 @@ export class ChromeBookmarkService {
       return [];
     }
 
-    nodes.forEach(n => {
+    // nodes.forEach(n => {
+    return nodes.filter(n => {
       if (n.title.toLocaleLowerCase().includes(query)) {
         n.children = this.filterChildren(n.children, query);
 
         // hide sibling matches if query.length < 3
-        n.hidden = (n.url && query.length < 3);
-        return;
+        // n.hidden = (n.url && query.length < 7);
+        return !(n.url && query.length < 3);
       }
 
       if (n.children) {
         const filtered = this.filterChildren(n.children, query);
 
         // show only folders
-        n.children = this.filterChildren(n.children, query);
-        // n.children = filtered.filter(n2 => !n2.url);
+        // n.children = this.filterChildren(n.children, query);
+        n.children = filtered.filter(n2 => !n2.url);
 
         // if query.length < 3 hide sibling matches
-        n.hidden = !(query.length < 3 ? n.children.length : filtered.length);
-        return;
+        // n.hidden = !(query.length < 3 ? n.children.length : filtered.length);
+        return query.length < 3 ? n.children.length : filtered.length;
       }
 
-      n.hidden = true;
+      // n.hidden = true;
+      return false;
     });
 
-    return nodes;
+    // return nodes;
   }
 }
