@@ -1,7 +1,7 @@
 import { ChromeBookmarkService } from '../services/chrome-bookmark.service';
-import { SuggestionContainer } from './suggestion-container';
+import { SuggestionContainerComponent } from './suggestion-container.component';
 
-export class Popup {
+export class PopupComponent {
 
   public domElements = {
     searchInput: document.getElementById('search-input'),
@@ -10,9 +10,9 @@ export class Popup {
 
   private bookmarkService: ChromeBookmarkService = new ChromeBookmarkService();
 
-  private suggestionService: SuggestionContainer = new SuggestionContainer(
+  private suggestionService: SuggestionContainerComponent = new SuggestionContainerComponent(
     this.domElements.suggestionContainer, treeNode => {
-      this.bookmarkService.saveCurrentTabAsBookmark(treeNode.id, Popup.close);
+      this.bookmarkService.saveCurrentTabAsBookmark(treeNode.id, PopupComponent.close);
     });
 
   constructor() { }

@@ -1,7 +1,7 @@
 import './styles/popup.scss';
-import { Popup } from './app/components/popup';
+import { PopupComponent } from './app/components/popup.component';
 
-new Popup().init();
+new PopupComponent().init();
 
 // todo: build bookmark trees, not just lists
 //  load last folder, autocomplete with default option

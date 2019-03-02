@@ -1,10 +1,10 @@
-import { BookmarkNodeSuggestion } from './bookmark-node-suggestion';
+import { BookmarkNodeSuggestionComponent } from './bookmark-node-suggestion.component';
 import { TreeNode } from '../types';
 
-export class SuggestionContainer {
+export class SuggestionContainerComponent {
 
-  public suggestions: BookmarkNodeSuggestion[] = [];
-  public selectedSuggestion: BookmarkNodeSuggestion;
+  public suggestions: BookmarkNodeSuggestionComponent[] = [];
+  public selectedSuggestion: BookmarkNodeSuggestionComponent;
 
   private suggestionIterator;
 
@@ -19,7 +19,7 @@ export class SuggestionContainer {
     this.clear();
 
     treeNodes.forEach((node) => {
-      const instance = new BookmarkNodeSuggestion(node, null, this.container, this.onNodeSelect);
+      const instance = new BookmarkNodeSuggestionComponent(node, null, this.container, this.onNodeSelect);
       this.suggestions.push(instance);
     });
 
@@ -40,37 +40,11 @@ export class SuggestionContainer {
       this.initSuggestionIterator();
       current = this.suggestionIterator.next();
     }
-    this.selectedSuggestion = (<BookmarkNodeSuggestion>current.value);
+    this.selectedSuggestion = (<BookmarkNodeSuggestionComponent>current.value);
     this.selectedSuggestion.select();
-
-    // const selectedSuggestion = this.getSelectedSuggestion();
-    //
-    // if (!selectedSuggestion) {
-    //   this.selectSuggestion();
-    //   return;
-    // }
-    //
-    // selectedSuggestion.deselect();
-    //
-    // if (direction > 0) {
-    //   if (this.selectedSuggestion.index >= this.selectedSuggestion.parent.children.length - 1) {
-    //     select next parent
-        //
-        // this.selectedSuggestion = 0;
-        // return;
-      // }
-      // this.selectedSuggestion += 1;
-      // return;
-    // }
-    //
-    // if (this.selectedSuggestion <= 0) {
-    //   this.selectedSuggestion = this.suggestions.length - 1;
-    //   return;
-    // }
-    //
-    // this.selectedSuggestion -= 1;
   }
 
+  // todo: review before parent-children navigation
   // public selectSuggestion(parent: BookmarkNodeSuggestion = this.suggestions[0], index: number = -1) {
   //   this.selectedSuggestion.parent = parent;
   //   this.selectedSuggestion.index = index;
@@ -97,7 +71,9 @@ export class SuggestionContainer {
     this.suggestionIterator = this.iterateSuggestions(this.suggestions[0]);
   }
 
-  private *iterateSuggestions (current: BookmarkNodeSuggestion) {
+  // todo build navigation path on the tree
+  // encapsulate navigation
+  private *iterateSuggestions (current: BookmarkNodeSuggestionComponent) {
     yield current;
     for (const child of current.children) {
       yield *this.iterateSuggestions(child);

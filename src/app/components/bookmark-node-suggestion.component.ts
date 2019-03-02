@@ -1,7 +1,7 @@
 import { TreeNode } from '../types';
 
-export class BookmarkNodeSuggestion {
-  public children: BookmarkNodeSuggestion[] = [];
+export class BookmarkNodeSuggestionComponent {
+  public children: BookmarkNodeSuggestionComponent[] = [];
 
   public domElements = {
     currentItem: null,
@@ -13,7 +13,7 @@ export class BookmarkNodeSuggestion {
 
   constructor(
     public bookmarkNode: TreeNode,
-    public parent: BookmarkNodeSuggestion,
+    public parent: BookmarkNodeSuggestionComponent,
     private container: HTMLElement,
     private onselect: (node: TreeNode) => void
   ) {
@@ -21,7 +21,7 @@ export class BookmarkNodeSuggestion {
 
     if (this.bookmarkNode.children) {
       this.bookmarkNode.children.forEach((node) => {
-        const child = new BookmarkNodeSuggestion(node, this, this.domElements.subContainer, this.onselect);
+        const child = new BookmarkNodeSuggestionComponent(node, this, this.domElements.subContainer, this.onselect);
         this.children.push(child);
       });
     }
