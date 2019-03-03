@@ -1,16 +1,16 @@
 import { BookmarkNodeSuggestionComponent } from './bookmark-node-suggestion.component';
 import { TreeNode } from '../types';
+import { SuggestionIteratorService } from '../services/suggestion-iterator.service';
 
 export class SuggestionContainerComponent {
 
   public suggestions: BookmarkNodeSuggestionComponent[] = [];
-  public selectedSuggestion: BookmarkNodeSuggestionComponent;
-
-  private suggestionIterator;
+  public currentSuggestion: BookmarkNodeSuggestionComponent;
 
   constructor(
     private container: HTMLElement,
-    private onNodeSelect: (treeNode: TreeNode) => void
+    private onNodeSelect: (treeNode: TreeNode) => void,
+    private suggestionIterator: SuggestionIteratorService<BookmarkNodeSuggestionComponent> = new SuggestionIteratorService()
   ) {
     this.initKeyboardEventHandlers();
   }
@@ -23,61 +23,29 @@ export class SuggestionContainerComponent {
       this.suggestions.push(instance);
     });
 
-    this.initSuggestionIterator();
+    this.suggestionIterator.setTree(this.suggestions);
+    this.selectSuggestion('first');
   }
 
-  public selectNextSuggestion(direction: -1|0|1 = 1) {
-    if (direction === 0 || !this.suggestions.length) {
+  public selectSuggestion(index: 'next' | 'previous' | 'parent' | 'back' | 'first') {
+    if (!index) {
       return;
     }
 
-    if (this.selectedSuggestion) {
-      this.selectedSuggestion.deselect();
-    }
-
-    let current = this.suggestionIterator.next();
-    if (current.done) {
-      this.initSuggestionIterator();
-      current = this.suggestionIterator.next();
-    }
-    this.selectedSuggestion = (<BookmarkNodeSuggestionComponent>current.value);
-    this.selectedSuggestion.select();
+    this.deselectCurrentSuggestion();
+    this.currentSuggestion = this.suggestionIterator[index]();
+    this.currentSuggestion.select();
   }
 
-  // todo: review before parent-children navigation
-  // public selectSuggestion(parent: BookmarkNodeSuggestion = this.suggestions[0], index: number = -1) {
-  //   this.selectedSuggestion.parent = parent;
-  //   this.selectedSuggestion.index = index;
-  // }
-  //
-  // public getSelectedSuggestion(): BookmarkNodeSuggestion {
-  //   if (!this.selectedSuggestion.parent) {
-  //     return null;
-  //   }
-  //
-  //   if (this.selectedSuggestion.index === -1) {
-  //     return this.selectedSuggestion.parent;
-  //   }
-  //
-  //   return this.selectedSuggestion.parent[this.selectedSuggestion.index];
-  // }
+  public deselectCurrentSuggestion() {
+    if (this.currentSuggestion) {
+      this.currentSuggestion.deselect();
+    }
+  }
 
   public clear() {
     this.suggestions.length = 0;
     this.container.innerHTML = '';
-  }
-
-  private initSuggestionIterator() {
-    this.suggestionIterator = this.iterateSuggestions(this.suggestions[0]);
-  }
-
-  // todo build navigation path on the tree
-  // encapsulate navigation
-  private *iterateSuggestions (current: BookmarkNodeSuggestionComponent) {
-    yield current;
-    for (const child of current.children) {
-      yield *this.iterateSuggestions(child);
-    }
   }
 
   private initKeyboardEventHandlers() {
@@ -85,30 +53,38 @@ export class SuggestionContainerComponent {
       switch (e.key) {
         case 'ArrowDown': {
           e.preventDefault();
-          this.selectNextSuggestion(1);
+          this.selectSuggestion('next');
           break;
         }
         case 'ArrowUp': {
           e.preventDefault();
-          this.selectNextSuggestion(-1);
+          this.selectSuggestion('previous');
           break;
         }
-        case 'ArrowLeft':
+        case 'ArrowLeft': {
+          e.preventDefault();
+          this.selectSuggestion('parent');
+          break;
+        }
         case 'ArrowRight': {
           e.preventDefault();
-          // todo: navigate btw parent - children
+          if (this.currentSuggestion.children[0]) {
+            this.selectSuggestion('next');
+          } else {
+            this.selectSuggestion('back');
+          }
           break;
         }
         case 'Enter': {
-          this.onNodeSelect(this.selectedSuggestion.bookmarkNode);
+          this.onNodeSelect(this.currentSuggestion.bookmarkNode);
           break;
         }
         default: {
-          console.log('onkeydown', e.key, e);
           break;
         }
       }
     });
   }
+
 
 }
