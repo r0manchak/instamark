@@ -43,10 +43,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'], {
-      root: path.join(distDir, '..'),
-      exclude: ['manifest.json']
-    }),
+    // new CleanWebpackPlugin(['dist'], {
+    //   root: path.join(distDir, '..'),
+    //   exclude: ['manifest.json']
+    // }),
 
     new MiniCssExtractPlugin({
       filename: "css/[name].css",

@@ -1,0 +1,6 @@
+Mark nodes with children somehow
+eg. Arrow right -> show ndoe children
+
+
+Show recommended folders on start
+Find recommended folders based on the tab's url & title
