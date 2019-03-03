@@ -73,7 +73,6 @@ export class BookmarkNodeSuggestionComponent {
       this.onselect(this.bookmarkNode);
     });
 
-
     this.container.appendChild(currentItem);
   }
 }
