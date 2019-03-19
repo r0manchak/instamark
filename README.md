@@ -1,6 +1,6 @@
 # Instamark
 *Browser bookmarks UX rethought*
 
-**Give a new life to your bookmarking experience.**
+**Give your browser's bookmarking a second chance.**
 
 
