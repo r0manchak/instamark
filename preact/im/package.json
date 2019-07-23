@@ -1,0 +1,44 @@
+{
+  "name": "instamark",
+  "version": "0.9.0",
+  "description": "Instant Bookmarks",
+  "scripts": {
+    "watch": "webpack --mode development --watch --progress",
+    "watch:prod": "webpack --mode production --watch --progress",
+    "build": "webpack --mode development --progress",
+    "build:prod": "webpack --mode production --progress"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roman4ak/instamark.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "bookmarks"
+  ],
+  "author": "Andrii Romanchak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roman4ak/instamark/issues"
+  },
+  "homepage": "https://github.com/roman4ak/instamark#readme",
+  "devDependencies": {
+    "@types/chrome": "0.0.86",
+    "clean-webpack-plugin": "^3.0.0",
+    "codelyzer": "^5.1.0",
+    "copy-webpack-plugin": "^5.0.3",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "preact": "^8.4.2",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
+    "tslint-consistent-codestyle": "^1.15.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.37.0",
+    "webpack-cli": "^3.3.6"
+  }
+}
